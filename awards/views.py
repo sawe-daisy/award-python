@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Profile
+from .models import Profile, Project
 from django.http import HttpRequest, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -9,6 +9,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from itertools import chain
 from django.urls import reverse
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 
 # Create your views here.
 def register(request):
@@ -78,12 +85,12 @@ def searchprofile(request):
     return render(request, 'main/search.html', {'message': message})
 
 def like_image(request, pk):
-    post= get_object_or_404(Image, id=request.POST.get('post_id'))
+    post= get_object_or_404(Post, id=request.POST.get('post_id'))
     post.likes.add(request.user)
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Image
+    model = Project
     success_url = '/'
     template_name= 'posts/delete.html'
 
