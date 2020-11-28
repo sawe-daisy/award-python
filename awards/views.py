@@ -89,6 +89,16 @@ def like_image(request, pk):
     post.likes.add(request.user)
     return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
 
+
+class PostCreateView(LoginRequiredMixin, CreateView):
+    model = Project
+    fields = ['image', 'title', 'description', 'url']
+    template_name='posts/postForm.html'
+    def form_valid(self, form):
+        form.instance.author = self.request.user.profile
+        return super().form_valid(form)
+
+
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Project
     success_url = '/'

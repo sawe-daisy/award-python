@@ -47,7 +47,7 @@
                           aria-label="Search">
                   </div>
               </form>
-                <a class="nav-item nav-link" href="#">New Post</a>
+                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
                 <a class="nav-item nav-link" href="#">Profile</a>
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                 {% else %}

@@ -10,6 +10,7 @@ urlpatterns=[
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('register/',views.register, name='registration'),
     path('search/', views.searchprofile, name='search'),
+    path('post/new/', views.PostCreateView.as_view(), name='post-create'),
     path('profile/',views.profile, name='profile'),
     path('like/<int:pk>/', views.like_image, name='like_post'),
 ]
