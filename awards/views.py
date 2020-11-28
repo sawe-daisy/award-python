@@ -61,3 +61,34 @@ def index(request):
     }
 
     return render(request, 'index.html', context)
+
+@login_required
+def searchprofile(request): 
+    if 'searchUser' in request.GET and request.GET['searchUser']:
+        name = request.GET.get("searchUser")
+        searchResults = Profile.search_profile(name)
+        message = f'name'
+        params = {
+            'results': searchResults,
+            'message': message
+        }
+        return render(request, 'main/search.html', params)
+    else:
+        message = "You haven't searched"
+    return render(request, 'main/search.html', {'message': message})
+
+def like_image(request, pk):
+    post= get_object_or_404(Image, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Image
+    success_url = '/'
+    template_name= 'posts/delete.html'
+
+    def test_func(self):
+        post = self.get_object()
+        if self.request.user.profile == post.author:
+            return True
+        return False
