@@ -64,7 +64,7 @@ def profile(request):
 
 def index(request):
     context={
-        'posts':Post.objects.all(),
+        'posts':Project.objects.all(),
     }
 
     return render(request, 'index.html', context)
