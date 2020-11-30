@@ -113,3 +113,7 @@ Open [localhost:8000](http://127.0.0.1:8000/)
 ## Support and contact details
  Incase you come across errors, have questions, ideas ,concerns, or want to contribute to the application,reach me at :deesawe16@gmail.com
 
+### License
+[MIT](https://github.com/sawe-daisy/insta-try/blob/master/LICENSE)
+
+Copyright (c) 2020 **sawe-daisy**
