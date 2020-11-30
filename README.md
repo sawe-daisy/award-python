@@ -68,7 +68,7 @@ Create a `.env` file and paste paste the following filling where appropriate:
 ```
 SECRET_KEY = 'q#h0zgxq36zn+^hy&o1hm!w9xddz06k71vun(&#c((%dje09_-'4-n**9qrqjf%zmw!_npld)l'
 DEBUG=True
-DB_NAME='awwards'
+DB_NAME='awards'
 DB_USER='<your database name>'
 DB_PASSWORD='<password to your database>'
 DB_HOST='127.0.0.1'
