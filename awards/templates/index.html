@@ -8,6 +8,7 @@
               <small class="text-muted">posted on {{ post.pub_date|date:"F d, Y" }}</small>
             </div>
             <p class="article-content">{{ post.description }}</p>
+            <p class="article-content">{{ post.url }}</p>
           </div>
           {% if user.is_authenticated %}
           <form action="{% url 'like_post' post.pk %}" method="POST">

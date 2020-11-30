@@ -92,13 +92,17 @@ def like_image(request, pk):
 
 def PostCreateView(request):
     if request.method=='POST':
+        curr
         form=ProjectForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             messages.success(request, f'You have successfuly posted your project for review!')
         return redirect('gram-landing')
     else:
-        form = ProfileForm()    
+        form = ProjectForm() 
+    context={
+        'form':form
+    }   
 
     return render(request, 'posts/postForm.html', {"form":form})
 
