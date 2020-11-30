@@ -1,21 +1,30 @@
 {% extends "base.html" %}
+{% load ratings %}
 {% block content %}
+<div class="container">
+  <div class="flex" style="display: flex; flex-direction: row; justify-content: center; flex-wrap: wrap;">
     {% for post in posts %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ post.image.url }}" height="300px" width="300px">
-          <div class="media-body">
-            <div class="article-metadata">
-              <small class="text-muted">posted on {{ post.pub_date|date:"F d, Y" }}</small>
-            </div>
-            <p class="article-content">{{ post.description }}</p>
-            <p class="article-content">{{ post.url }}</p>
-          </div>
-          {% if user.is_authenticated %}
+    <div class="col-md-4 ml-10 mt-10">
+      <div>
+        <img class="rounded-circle article-img" src="{{ post.image.url }}" height="300px" width="300px">
+        <small class="text-muted">posted on {{ post.pub_date|date:"F d, Y" }}</small>
+      </div>
+      <p class="article-content">{{ post.title }}</p>
+      <a href="{{post.url}}">View Project</a>
+      {% if user.is_authenticated %}
           <form action="{% url 'like_post' post.pk %}" method="POST">
             {% csrf_token %}
             <button type="submit" name="post_id" value="{{post.id}}" class="btn-sm btn-info">Like</button>
           </form>
           {% endif %}
-        </article>
+
+          {% ratings post %}
+      <div>
+
+      </div>
+    </div>
     {% endfor %}
+  </div>
+</div>
 {% endblock content %}
+ 

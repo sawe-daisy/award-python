@@ -91,11 +91,14 @@ def like_image(request, pk):
 
 
 def PostCreateView(request):
+    current_user=request.user
+    user_profile=Profile.objects.get(user=current_user)
     if request.method=='POST':
-        curr
-        form=ProjectForm(request.POST, request.FILES, instance=request.user.profile)
+        form=ProjectForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            fForm=form.save(commit=False)
+            fForm.author=user_profile
+            fForm.save()
             messages.success(request, f'You have successfuly posted your project for review!')
         return redirect('gram-landing')
     else:
@@ -106,6 +109,9 @@ def PostCreateView(request):
 
     return render(request, 'posts/postForm.html', {"form":form})
 
+def profile(request,id):
+    prof = Profile.objects.get(user = id)
+    return render(request,'profile.html',{"profile":prof})
 
 
 # class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
