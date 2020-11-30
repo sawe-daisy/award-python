@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.models import User
-from .forms import RegistrationForm, ProfileForm, UserUpdateForm
+from .forms import RegistrationForm, ProfileForm, UserUpdateForm, ProjectForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from itertools import chain
@@ -85,27 +85,32 @@ def searchprofile(request):
     return render(request, 'main/search.html', {'message': message})
 
 def like_image(request, pk):
-    post= get_object_or_404(Post, id=request.POST.get('post_id'))
+    post= get_object_or_404(Project, id=request.POST.get('post_id'))
     post.likes.add(request.user)
-    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+    return HttpResponseRedirect(reverse('gram-landing', args=[str(pk)]))
 
 
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Project
-    fields = ['image', 'title', 'description', 'url']
-    template_name='posts/postForm.html'
-    def form_valid(self, form):
-        form.instance.author = self.request.user.profile
-        return super().form_valid(form)
+def PostCreateView(request):
+    if request.method=='POST':
+        form=ProjectForm(request.POST, request.FILES, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'You have successfuly posted your project for review!')
+        return redirect('gram-landing')
+    else:
+        form = ProfileForm()    
+
+    return render(request, 'posts/postForm.html', {"form":form})
 
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Project
-    success_url = '/'
-    template_name= 'posts/delete.html'
 
-    def test_func(self):
-        post = self.get_object()
-        if self.request.user.profile == post.author:
-            return True
-        return False
+# class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+#     model = Project
+#     success_url = '/'
+#     template_name= 'posts/delete.html'
+
+#     def test_func(self):
+#         post = self.get_object()
+#         if self.request.user.profile == post.author:
+#             return True
+#         return False

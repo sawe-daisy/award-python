@@ -2,6 +2,7 @@ from django.db import models
 from  cloudinary.models import CloudinaryField
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -60,3 +61,11 @@ class Project(models.Model):
     
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'pk':self.pk})
+
+class Rating(models.Model):
+    project=models.ForeignKey(Project, on_delete=models.CASCADE)
+    author= models.ForeignKey(Profile, on_delete=models.CASCADE)
+    stars = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
+    class Meta:
+        unique_together=(('author', 'project'))
+        index_together=(('author', 'project'))
