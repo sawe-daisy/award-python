@@ -1,17 +1,17 @@
 from django.test import TestCase
 
 from django.test import TestCase
-from .models import Profile,Projects
+from .models import Profile,Project
 from django.contrib.auth.models import User
 
 
 class ProfileTest(TestCase):
     def setUp(self):
-        self.dorcas = User(username = 'Dorcas',email = 'dorcasmosonik@gmail.com')
-        self.dorcas = Profile(user = Self.dorcas,user = 1,Bio = 'tests',photo = 'test.jpg',date_craeted='dec,01.2020')
+        self.dee = User(username = 'Dee',email = 'dee@gmail.com')
+        self.dee = Profile(user = Self.dee,user = 1,Bio = 'tests',photo = 'test.jpg',date_craeted='dec,01.2020')
 
     def test_instance(self):
-        self.assertTrue(isinstance(self.dorcas,Profile))
+        self.assertTrue(isinstance(self.dee,Profile))
 
     def test_save_profile(self):
         Profile.save_profile(self)
@@ -19,7 +19,7 @@ class ProfileTest(TestCase):
         self.assertTrue(len(all_profiles),0)
 
     def test_delete_profile(self):
-        self.dorcas.delete_profile()
+        self.dee.delete_profile()
         all_profiles = Profile.objects.all()
         self.assertEqual(len(all_profiles),0)
 
@@ -27,15 +27,15 @@ class ProfileTest(TestCase):
 
 class ProjectsTestCase(TestCase):
     def setUp(self):
-        self.new_post = Projects(title = 'testT',projectscreenshot = 'test.jpg',description = 'testD',user = peris,projecturl = 'https://test.com',datecreated='Dec,01.2020')
+        self.new_post = Project(title = 'testT',projectscreenshot = 'test.jpg',description = 'testD',user = peris,projecturl = 'https://test.com',datecreated='Dec,01.2020')
 
 
     def test_save_project(self):
         self.new_post.save_project()
-        pictures = Image.objects.all()
+        pictures = Project.objects.all()
         self.assertEqual(len(pictures),1)
 
     def test_delete_project(self):
         self.new_post.delete_project()
-        pictures = Projects.objects.all()
+        pictures = Project.objects.all()
         self.assertEqual(len(pictures),1)  
