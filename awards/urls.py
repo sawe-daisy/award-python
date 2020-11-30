@@ -17,6 +17,8 @@ urlpatterns=[
     path('post/', views.PostCreateView, name='post-create'),
     path('profile/',views.profile, name='profile'),
     path('like/<int:pk>/', views.like_image, name='like_post'),
+    path('api/projects',views.ProjectList.as_view()),
+    path('api/profiles',views.ProfileList.as_view()),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

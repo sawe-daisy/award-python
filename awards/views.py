@@ -17,6 +17,12 @@ from django.views.generic import (
     DeleteView
 )
 
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import  Project,Profile
+from .serializer import ProjectSerializer,ProfileSerializer
+
+
 # Create your views here.
 def register(request):
     if request.method=="POST":
@@ -124,3 +130,16 @@ def profile(request,id):
 #         if self.request.user.profile == post.author:
 #             return True
 #         return False
+
+
+class ProjectList(APIView):
+    def get(self, request, format=None):
+        all_projects = Project.objects.all()
+        serializers = ProjectSerializer(all_projects, many=True)
+        return Response(serializers.data)
+
+class ProfileList(APIView):
+    def get(self, request, format=None):
+        all_profiles = Profile.objects.all()
+        serializers = ProfileSerializer(all_projects, many=True)
+        return Response(serializers.data)        
